@@ -30,8 +30,8 @@ def send_sms(*args):
         client.connect()
         if USER_TYPE.get() == "bind_transceiver":
             client.bind_transceiver(system_id=SYSTEM_ID.get(), password=SYSTEM_PASS.get())
-        if USER_TYPE.get() == "bind_tranmitter":
-                client.bind_tranmitter(system_id=SYSTEM_ID.get(), password=SYSTEM_PASS.get())
+        if USER_TYPE.get() == "bind_transmitter":
+                client.bind_transmitter(system_id=SYSTEM_ID.get(), password=SYSTEM_PASS.get())
 
         for part in parts:
             pdu = client.send_message(
