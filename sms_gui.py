@@ -1,6 +1,7 @@
 
 import logging
 import sys
+import datetime
 
 import smpplib.gsm
 import smpplib.client
@@ -51,9 +52,12 @@ def send_sms(*args):
                 registered_delivery=True,
             )
             print(pdu.sequence)
-
+	
         client.unbind()
+        print('Unbind Done')
         client.disconnect()
+        print('Disconnected')
+        print('Sms sent on: ' + str(datetime.datetime.now()))
 
     except ValueError:
         pass
