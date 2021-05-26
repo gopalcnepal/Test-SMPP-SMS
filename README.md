@@ -20,3 +20,5 @@ Executables for: Windows and Linux
   
 NOTE: User Type : bind_transceiver ------if you are transceiver
       User Type: bind_transmitter  ------if you are transmitter
+      
+![Screenshot of GUI](Screenshot_with_terminal_output.png?raw=true "Screenshot of GUI")
