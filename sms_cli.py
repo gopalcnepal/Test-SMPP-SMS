@@ -7,7 +7,8 @@ import smpplib.gsm
 import smpplib.client
 import smpplib.consts
 
-parser = argparse.ArgumentParser(description='This is CLI based Python3 based script to Test SMPP SMS. You can find executable for popular OS and source code at https://github.com/gopalcnepal/Test-SMPP-SMS')
+parser = argparse.ArgumentParser(description='This is CLI based Python3 based script to Test SMPP SMS. Please ensure that you have installed the python module (smpplib, argparse) related to this file. \nYou can find executable for popular OS and source code at https://github.com/gopalcnepal/Test-SMPP-SMS',
+                                epilog='The example use-case:\npython3 sms_cli.py --host 192.168.1.1 --port 5000 --user smppuser --pass smppPass --type transmitter --mobile 1234567890 --sender TEST --message "Test Message"')
 
 # Add an argument
 parser.add_argument('--host', type=str, required=True, help='The IP address of SMSC')
@@ -16,8 +17,8 @@ parser.add_argument('--user', type=str, required=True, help='SMPP Username')
 parser.add_argument('--passwd', type=str, required=True, help='SMPP Password')
 parser.add_argument('--type', type=str, required=True, help='User Type, transmitter or transceiver')
 parser.add_argument('--mobile', type=str, required=True, help='Receiving Mobile Number')
-parser.add_argument('--sender', type=str, help='Sender ID. If not mentioned default value "SMSCLI" will be used')
-parser.add_argument('--message', type=str, help='SMS message. Default will be "Test from SMSCLI"')
+parser.add_argument('--sender', type=str, default="SMSCLI", help='Sender ID. If not mentioned default value "SMSCLI" will be used')
+parser.add_argument('--message', type=str, default="Test from SMSCLI", help='SMS message. Default will be "Test from SMSCLI"')
 
 args = parser.parse_args()
 
@@ -26,9 +27,9 @@ SMSC_PORT = str(args.port)
 SYSTEM_ID = str(args.user)
 SYSTEM_PASS = str(args.passwd)
 USER_TYPE = str(args.type)
-SENDER_ID = "SMSCLI" if args.sender is None else str(args.sender)
+SENDER_ID = str(args.sender)
 DESTINATION_NO = str(args.mobile)
-MESSAGE = "Test from SMSCLI" if args.message is None else str(args.message)
+MESSAGE = str(args.message)
 
 try:
     # Two parts, UCS2, SMS with UDH
