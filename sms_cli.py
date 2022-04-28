@@ -1,4 +1,4 @@
-#sms_cli.py
+# Program Name: sms_cli.py
 
 import argparse
 import datetime
@@ -7,18 +7,30 @@ import smpplib.gsm
 import smpplib.client
 import smpplib.consts
 
-parser = argparse.ArgumentParser(description='This is CLI based Python3 based script to Test SMPP SMS. Please ensure that you have installed the python module (smpplib, argparse) related to this file. \nYou can find executable for popular OS and source code at https://github.com/gopalcnepal/Test-SMPP-SMS',
-                                epilog='The example use-case:\npython3 sms_cli.py --host 192.168.1.1 --port 5000 --user smppuser --pass smppPass --type transmitter --mobile 1234567890 --sender TEST --message "Test Message"')
+parser = argparse.ArgumentParser(
+    description='This is CLI based Python3 based script to Test SMPP SMS. '
+    'Please ensure that you have installed the python module '
+    '(smpplib, argparse) related to this file. \n You can find executable and '
+    'source code at https://github.com/gopalcnepal/Test-SMPP-SMS',
+    epilog='The example use-case:\npython3 sms_cli.py --host 192.168.1.1 '
+    '--port 5000 --user smppuser --pass smppPass --type transmitter --mobile '
+    '1234567890 --sender TEST --message "Test Message"')
 
 # Add an argument
-parser.add_argument('--host', type=str, required=True, help='The IP address of SMSC')
-parser.add_argument('--port', type=int, required=True, help='Port Number of the SMSC')
+parser.add_argument('--host', type=str, required=True,
+                    help='The IP address of SMSC')
+parser.add_argument('--port', type=int, required=True,
+                    help='Port Number of the SMSC')
 parser.add_argument('--user', type=str, required=True, help='SMPP Username')
 parser.add_argument('--passwd', type=str, required=True, help='SMPP Password')
-parser.add_argument('--type', type=str, required=True, help='User Type, transmitter or transceiver')
-parser.add_argument('--mobile', type=str, required=True, help='Receiving Mobile Number')
-parser.add_argument('--sender', type=str, default="SMSCLI", help='Sender ID. If not mentioned default value "SMSCLI" will be used')
-parser.add_argument('--message', type=str, default="Test from SMSCLI", help='SMS message. Default will be "Test from SMSCLI"')
+parser.add_argument('--type', type=str, required=True,
+                    help='User Type, transmitter or transceiver')
+parser.add_argument('--mobile', type=str, required=True,
+                    help='Receiving Mobile Number')
+parser.add_argument('--sender', type=str, default="SMSCLI",
+                    help='Sender ID. Default: SMSCLI')
+parser.add_argument('--message', type=str, default="Test from SMSCLI",
+                    help='SMS message. Default: Test from SMSCLI')
 
 args = parser.parse_args()
 
@@ -38,10 +50,12 @@ try:
 
     # Print when obtain message_id
     client.set_message_sent_handler(
-        lambda pdu: sys.stdout.write('sent {} {}\n'.format(pdu.sequence, pdu.message_id))
+        lambda pdu: sys.stdout.write('sent {} {}\n'.format(pdu.sequence,
+                                                           pdu.message_id))
         )
     client.set_message_received_handler(
-        lambda pdu: sys.stdout.write('delivered {}\n'.format(pdu.receipted_message_id))
+        lambda pdu: sys.stdout.write('delivered {}\n'.format(
+                                                    pdu.receipted_message_id))
         )
     client.connect()
     if USER_TYPE.lower() == "transceiver":
@@ -51,11 +65,11 @@ try:
     for part in parts:
         pdu = client.send_message(
             source_addr_ton=smpplib.consts.SMPP_TON_INTL,
-            #source_addr_npi=smpplib.consts.SMPP_NPI_ISDN,
+            # source_addr_npi=smpplib.consts.SMPP_NPI_ISDN,
             # Make sure it is a byte string, not unicode:
             source_addr=SENDER_ID,
             dest_addr_ton=smpplib.consts.SMPP_TON_INTL,
-            #dest_addr_npi=smpplib.consts.SMPP_NPI_ISDN,
+            # dest_addr_npi=smpplib.consts.SMPP_NPI_ISDN,
             # Make sure thease two params are byte strings, not unicode:
             destination_addr=DESTINATION_NO,
             short_message=part,
